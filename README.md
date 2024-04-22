@@ -49,12 +49,95 @@ STEP:10 Double click on the Implement Design and double click on the Generate Pr
 STEP:11  On the board, by giving required input, the LEDs starts to glow light, indicating the output.
 
 VERILOG CODE
-
-   <<< TYPE YOUR VERILOG CODE >>>
-
+ENCODER:
+```
+module encoder(d,a,b,c);
+input [7:0]d;
+output a,b,c;
+or(a,d[4],d[5],d[6],d[7]);
+or(b,d[2],d[3],d[6],d[7]);
+or(c,d[1],d[3],d[5],d[7]);
+endmodule
+```
+DECODER:
+```
+module decoder_8(a,b,c,y);
+input a,b,c; 
+output[7:0]y; 
+and gl(y[0],(~a),(~b),(~c)); 
+and g2(y[1],(~a),(~b),(c)); 
+and g3(y[2],(~a),(b),(~c));
+and g4(y[3],(~a),(b),(c));
+and g5(y[4],(a),(~b),(~c));
+and g6(y[5],(a), (~b), (c));
+and g7(y[6], (a), (b), (~c)); 
+and g8(y[7], (a), (b), (c));
+endmodule
+```
+MULTIPLEXER:
+```
+module mux(a,b,c,d,s0,s1,y);
+input a,b,c,d,s0,s1;
+output y;
+assign y=s1 ?(s0?d:c):(s0?b:a);
+endmodule
+DEMULTIPLEXER:
+module demux(in,s0,s1,s2,d0,d1,d2,d3,d4,d5,d6,d7);
+input in,s0,s1,s2;
+output d0,d1,d2,d3,d4,d5,d6,d7;
+assign d0=(in & ~s2 & ~s1 &~s0),
+d1=(in & ~s2 & ~s1 &s0),
+d2=(in & ~s2 & s1 &~s0),
+d3=(in & ~s2 & s1 &s0),
+d4=(in & s2 & ~s1 &~s0),
+d5=(in & s2 & ~s1 &s0),
+d6=(in & s2 & s1 &~s0),
+d7=(in & s2 & s1 &s0);
+endmodule
+```
+MAGNITUDE COMPARATOR:
+```
+module magcomp(a,b,l,g,e);
+input [3:0]a,b;
+output reg l,g,e;
+always @(*)
+begin
+if(a>b)
+begin
+     l=1'b0;
+     g=1'b1;
+     e=1'b0;
+end
+else if(a<b)
+begin
+     l=1'b1;
+     g=1'b0;
+     e=1'b0;
+end
+else
+begin
+     l=1'b0;
+     g=1'b0;
+     e=1'b1;
+end
+end
+endmodule
+```
 OUTPUT WAVEFORM
- <<< PASTE YOUR OUTPUT WAVEFORM >>>
+ ENCODER:
+ ![316395620-3e5947de-613f-4a12-ac7d-9ea028c5b89d](https://github.com/PoornaTkD/VLSI-LAB-EXP-2/assets/95264589/03ff7b3d-d184-4dfa-9b15-9c366c445189)
+DECODER:
+![316395827-54562308-bae1-4a3d-aa7a-9cb312bc3db9](https://github.com/PoornaTkD/VLSI-LAB-EXP-2/assets/95264589/601cc096-7039-4831-a1c8-d6702649225d)
+MULTIPLEXER:
+![316396650-9f6d81c9-b73e-4b7b-a393-89ebb1d4119d](https://github.com/PoornaTkD/VLSI-LAB-EXP-2/assets/95264589/411c34c4-d442-4862-92dc-c72713d2ba5b)
+DEMUTIPLEXER:
+![316397151-f7a059a6-d107-4fa1-8ef3-6de4ea847116](https://github.com/PoornaTkD/VLSI-LAB-EXP-2/assets/95264589/bb54e49c-ff44-49dd-80a8-fbaec635df23)
+MAGNITUDE COMPARATOR:
+![316397343-e87e53d5-453b-47a6-ae69-c78a155350d8](https://github.com/PoornaTkD/VLSI-LAB-EXP-2/assets/95264589/20930752-6c6c-481a-84e8-8fba536c4cd6)
 
-RESULT
+
+RESULT:
+Hence ENCODER, DECODER, MULTIPLEXER, DEMULTIPLEXER, MAGNITUDE COMPARATOR is stimulated and synthesised using Vivado 2023.2.
+
 
 
